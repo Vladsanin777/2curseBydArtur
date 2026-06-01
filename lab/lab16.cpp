@@ -1,10 +1,14 @@
 #include <iostream>
+#include <iomanip>
 
 void printBinary(int num) {
-
-    for (int i = 15; i >= 0; i--) {
-        std::cout << ((num >> i) & 1);
-        if (i % 4 == 0 && i != 0) std::cout << ' ';
+    for (int byte = 3; byte >= 0; byte--) {
+        for (int bit = 7; bit >= 0; bit--) {
+            int shiftAmount = (byte * 8) + bit;
+            std::cout << (char)('0' + ((num >> shiftAmount) & 0x01));
+        }
+        
+        std::cout << ' ';
     }
     std::cout << std::endl;
 }
@@ -12,23 +16,22 @@ void printBinary(int num) {
 int main() {
     setlocale(LC_ALL, "RU");
     int num;
-    std::cout << "Введите целое число (0..65535): ";
-    std::cin >> num;
+    std::cout << "Введите шестнадцатеричное число: 0x";
+    std::cin >> std::hex >> num;
 
-    num = num & 0xFFFF;
-
-    std::cout << "Исходное число: " << num << std::endl;
-    std::cout << "Двоичный вид: ";
+    std::cout << "Двоичный вид: 0b ";
     printBinary(num);
 
-    int highByte = (num >> 8) & 0xFF;
+    int highByte = (num >> 0x18) & 0xFF;
     int lowByte = num & 0xFF;
 
-    int result = (lowByte << 8) | highByte;
+    num &= 0x00FFFF00;
+    num |= lowByte << 0x18;
+    num |= highByte;
 
-    std::cout << "Результат: " << result << std::endl;
-    std::cout << "Двоичный вид: ";
-    printBinary(result);
+    std::cout << "Результат: 0x" << std::hex << num << std::endl;
+    std::cout << "Двоичный вид: 0b ";
+    printBinary(num);
 
     return 0;
 }
