@@ -19,7 +19,7 @@ int main() {
     std::cout << "Введите шестнадцатеричное число: 0x";
     std::cin >> std::hex >> num;
 
-    std::cout << "Двоичный вид: 0b";
+    std::cout << "Двоичный вид: 0b ";
     printBinary(num);
 
     int highByte = (num >> 0x18) & 0xFF;
@@ -30,7 +30,7 @@ int main() {
     num |= highByte;
 
     std::cout << "Результат: 0x" << std::hex << num << std::endl;
-    std::cout << "Двоичный вид: 0b";
+    std::cout << "Двоичный вид: 0b ";
     printBinary(num);
 
     return 0;
